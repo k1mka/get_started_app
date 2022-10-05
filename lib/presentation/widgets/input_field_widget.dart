@@ -15,7 +15,9 @@ class InputFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
         labelText: labelText,
       ),
       validator: validator,
