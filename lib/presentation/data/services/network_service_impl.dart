@@ -8,10 +8,30 @@ import 'network_service.dart';
 class NetworkServiceImpl extends NetworkService {
   @override
   Future<List<CountryModel>> fetchCountry() async {
-    final url = Uri.parse('https://api.spotify.com/v1/tracks/6rqhFgbbKwnb9MLmUQDhG6');
+    final url = Uri.parse('https://restcountries.com/v3.1/all');
     final response = await get(url);
-    Future<List> responseListCountry = json.decode(response.body);
-    print(responseListCountry.toString());
-    throw Exception();
+    final List responseListCountry = jsonDecode(response.body);
+    final result = <CountryModel>[];
+    for (var map in responseListCountry) {
+      final String region = map['name']['common'] ?? 'null';
+      final String flag = map['flag'] ?? 'null';
+      final String phoneID = map['idd']['root'] ?? 'null';
+      final List phoneSuffixes = map['idd']['suffixes'] ?? [];
+
+      for (var suffix in phoneSuffixes) {
+        result.add(
+          region.isFoolCountry
+              ? CountryModel(region: 'Fool country', flag: '💩', phoneID: phoneID, phoneSuffix: suffix)
+              : CountryModel(region: region, flag: flag, phoneID: phoneID, phoneSuffix: suffix),
+        );
+      }
+    }
+
+    return result;
   }
+}
+
+extension FoolCountry on String {
+  static const foolCountyName = 'Russia';
+  bool get isFoolCountry => this == foolCountyName;
 }
