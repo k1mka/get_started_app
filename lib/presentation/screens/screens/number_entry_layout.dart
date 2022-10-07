@@ -15,26 +15,21 @@ class NumberEntryLayout extends StatefulWidget {
 }
 
 class _NumberEntryLayoutState extends State<NumberEntryLayout> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool isButtonEnabled = false;
 
-  void _onButtonPressed() {
-    showModalBottomSheet(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: const Color(0xFF8EAAFB),
-      builder: (context) => DraggableScrollableSheet(
-        expand: false,
-        minChildSize: 0.32,
-        initialChildSize: 0.9,
-        maxChildSize: 0.9,
-        builder: (BuildContext context, ScrollController scrollController) => const ChooseCountryScreen(),
-      ),
-    );
-  }
+  Future<CountryModel?> _onButtonPressed() async => showModalBottomSheet<CountryModel?>(
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: const Color(0xFF8EAAFB),
+        builder: (context) => DraggableScrollableSheet(
+          expand: false,
+          minChildSize: 0.32,
+          initialChildSize: 0.9,
+          maxChildSize: 0.9,
+          builder: (BuildContext context, ScrollController scrollController) => const ChooseCountryScreen(),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +40,20 @@ class _NumberEntryLayoutState extends State<NumberEntryLayout> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MainTextWidget(),
-            Spacer(),
-            Row(
-              children: [
-                ElevatedButton(onPressed: _onButtonPressed, child: Text('ам')),
-                InputFormWidget(),
-              ],
-            ),
-            Spacer(),
-            CustomButton(
-              onPressed: () {},
+            const MainTextWidget(),
+            const Spacer(),
+            InputFormWidget(
+                onTap: _onButtonPressed,
+                onValidationChanged: (isValid) {
+                  setState(() => isButtonEnabled = isValid);
+                }),
+            const Spacer(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: CustomButton(
+                onPressed: () {},
+                enabled: isButtonEnabled,
+              ),
             ),
           ],
         ),
