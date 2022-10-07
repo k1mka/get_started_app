@@ -21,8 +21,8 @@ class NetworkServiceImpl extends NetworkService {
       for (var suffix in phoneSuffixes) {
         result.add(
           region.isFoolCountry
-              ? CountryModel(region: 'Fool country', flag: '💩', phoneID: phoneID, phoneSuffix: suffix)
-              : CountryModel(region: region, flag: flag, phoneID: phoneID, phoneSuffix: suffix),
+              ? CountryModel(region: 'Fool country', flag: '💩', phonePreffix: phoneID, phoneSuffix: suffix)
+              : CountryModel(region: region, flag: flag, phonePreffix: phoneID, phoneSuffix: suffix),
         );
       }
     }
