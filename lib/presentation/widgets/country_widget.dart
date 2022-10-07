@@ -11,7 +11,7 @@ class CountryWidget extends StatelessWidget {
     return Row(
       children: [
         Text(countryModel.flag),
-        Text(countryModel.phoneID),
+        Text(countryModel.phonePreffix),
         Text(countryModel.region),
       ],
     );
